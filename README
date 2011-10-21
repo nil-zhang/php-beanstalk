@@ -9,7 +9,7 @@ $cd libbeanstalkclient/
 $mkdir m4
 $sudo ./autogen.sh 
 $sudo vim /etc/ld.so.conf
-	/usr/bin
+	/usr/lib
 $sudo ldconfig
 
 2.Install php-beanstalk
