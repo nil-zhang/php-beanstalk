@@ -1,0 +1,27 @@
+1.Install  libbeanstalkclient
+$mkdir php-beanstalk
+$cd php-beanstalk/
+$wget https://github.com/bergundy/libbeanstalkclient/tarball/master --no-check-certificate
+$mv master bergundy-libbeanstalkclient-b6ec294.tar.gz
+$tar -xzvf bergundy-libbeanstalkclient-b6ec294.tar.gz 
+$mv bergundy-libbeanstalkclient-b6ec294 libbeanstalkclient
+$cd libbeanstalkclient/
+$mkdir m4
+$sudo ./autogen.sh 
+$sudo vim /etc/ld.so.conf
+	/usr/bin
+$sudo ldconfig
+
+
+2.Install php-beanstalk
+$wget https://github.com/nil-zhang/php-beanstalk/tarball/master --no-check-certificate
+$mv master 
+$tar -xzvf php-beanstalk.tar.gz
+$cd php-beanstalk
+$phpize
+$./configure
+$make
+$sudo make install
+$sudo vim /etc/php.d/beanstalk.ini
+	extension = "beanstalk.so"
+$php -m
