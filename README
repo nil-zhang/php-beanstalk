@@ -12,10 +12,9 @@ $sudo vim /etc/ld.so.conf
 	/usr/bin
 $sudo ldconfig
 
-
 2.Install php-beanstalk
 $wget https://github.com/nil-zhang/php-beanstalk/tarball/master --no-check-certificate
-$mv master 
+$mv master php-beanstalk.tar.gz 
 $tar -xzvf php-beanstalk.tar.gz
 $cd php-beanstalk
 $phpize
@@ -25,3 +24,48 @@ $sudo make install
 $sudo vim /etc/php.d/beanstalk.ini
 	extension = "beanstalk.so"
 $php -m
+
+3.Using example
+-----example.php----------
+<?php
+
+    $bsc = new Beanstalk();
+
+    $bsc->addserver("ip1", 11300);
+    $bsc->addserver("ip2", 11300);
+
+    $tubes = $bsc->list_tubes();
+    print_r($tubes);
+
+    for($i = 0; $i < 10; $i++)
+    {
+        $key = "key".$i;
+        $value = "value".$i;
+
+        $bsc->use($key);
+        $bsc->put($key, $value);
+        echo "$key\t$value\n";
+
+        $bsc->watch($key);
+        $job = $bsc->reserve($key);
+        print_r($job);
+
+        if($bsc->bury($job['id'], $key))
+            echo "bury ok\n";
+        else
+            echo "bury failed\n";
+
+        $bsc->kick(100, $key);
+        if($bsc->delete($job['id'], $key))
+            echo "delete ok\n";
+        else
+            echo "delete failed \n";
+
+        $bsc->ignore($key);
+        echo "\n";
+    }
+
+    echo "done\n";
+
+?>
+
