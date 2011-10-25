@@ -566,11 +566,11 @@ PHP_FUNCTION(beanstalk_use)
 
 	if(cmd_use(svr, tube, tube_len) && g_use_info){
 		if(BSC_USE_RES_USING == g_use_info->response.code){
+			g_use_info = NULL;
+			use_flag = false;
 			RETURN_TRUE;
 		}
 	}
-	g_use_info = NULL;
-	use_flag = false;
 
 	RETURN_FALSE;
 }
@@ -639,11 +639,11 @@ PHP_FUNCTION(beanstalk_put)
 
 	if(cmd_put(svr, value, value_len) && g_put_info) {
 		if(BSC_PUT_RES_INSERTED == g_put_info->response.code) {
+			g_put_info = NULL;
+			put_flag = false;
 			RETURN_TRUE;
 		}
 	}
-	g_put_info = NULL;
-	put_flag = false;
 
 	RETURN_FALSE;
 }
@@ -714,11 +714,11 @@ PHP_FUNCTION(beanstalk_watch)
 	if(cmd_watch(svr, tube, tube_len) && g_wtch_info) {
 		if(BSC_RES_WATCHING == g_wtch_info->response.code)
 		{
+			g_wtch_info = NULL;
+			wtch_flag = false;
 			RETURN_TRUE;
 		}
 	}
-	g_wtch_info = NULL;
-	wtch_flag = false;
 
 	RETURN_FALSE;
 }
@@ -788,11 +788,11 @@ PHP_FUNCTION(beanstalk_ignore)
 	{
 		if(BSC_RES_WATCHING == g_ign_info->response.code)
 		{
+			g_ign_info = NULL;
+			ign_flag = false;
 			RETURN_TRUE;
 		}
 	}
-	g_ign_info = NULL;
-	ign_flag = false;
 
 	RETURN_FALSE;
 }
@@ -936,11 +936,11 @@ PHP_FUNCTION(beanstalk_bury)
 
 	if(cmd_bury(svr, job_id) && g_bury_info) {
 		if(BSC_RES_BURIED == g_bury_info->response.code){
+			g_bury_info = NULL;
+			bury_flag = false;
 			RETURN_TRUE;
 		}
 	}
-	g_bury_info = NULL;
-	bury_flag = false;
 
 	RETURN_FALSE;
 }
@@ -1009,11 +1009,11 @@ PHP_FUNCTION(beanstalk_kick)
 
 	if(cmd_kick(svr, bound) && g_kick_info) {
 		if(BSC_KICK_RES_KICKED == g_kick_info->response.code){
+			g_kick_info = NULL;
+			kick_flag = false;
 			RETURN_TRUE;
 		}
 	}
-	g_kick_info = NULL;
-	kick_flag = false;
 
 	RETURN_FALSE;
 }
@@ -1082,11 +1082,11 @@ PHP_FUNCTION(beanstalk_delete)
 
 	if(cmd_delete(svr, job_id) && g_dlt_info){
 		if(BSC_DELETE_RES_DELETED == g_dlt_info->response.code){
+			g_dlt_info = NULL;
+			dlt_flag = false;
 			RETURN_TRUE;
 		}
 	}
-	g_dlt_info = NULL;
-	dlt_flag = false;
 
 	RETURN_FALSE;
 }
