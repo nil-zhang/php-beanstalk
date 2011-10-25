@@ -566,11 +566,11 @@ PHP_FUNCTION(beanstalk_use)
 
 	if(cmd_use(svr, tube, tube_len) && g_use_info){
 		if(BSC_USE_RES_USING == g_use_info->response.code){
-			g_use_info = NULL;
-			use_flag = false;
 			RETURN_TRUE;
 		}
 	}
+	g_use_info = NULL;
+	use_flag = false;
 
 	RETURN_FALSE;
 }
@@ -639,11 +639,11 @@ PHP_FUNCTION(beanstalk_put)
 
 	if(cmd_put(svr, value, value_len) && g_put_info) {
 		if(BSC_PUT_RES_INSERTED == g_put_info->response.code) {
-			g_put_info = NULL;
-			put_flag = false;
 			RETURN_TRUE;
 		}
 	}
+	g_put_info = NULL;
+	put_flag = false;
 
 	RETURN_FALSE;
 }
@@ -714,11 +714,11 @@ PHP_FUNCTION(beanstalk_watch)
 	if(cmd_watch(svr, tube, tube_len) && g_wtch_info) {
 		if(BSC_RES_WATCHING == g_wtch_info->response.code)
 		{
-			g_wtch_info = NULL;
-			wtch_flag = false;
 			RETURN_TRUE;
 		}
 	}
+	g_wtch_info = NULL;
+	wtch_flag = false;
 
 	RETURN_FALSE;
 }
@@ -788,13 +788,13 @@ PHP_FUNCTION(beanstalk_ignore)
 	{
 		if(BSC_RES_WATCHING == g_ign_info->response.code)
 		{
-			g_ign_info = NULL;
-			ign_flag = false;
 			RETURN_TRUE;
 		}
 	}
+	g_ign_info = NULL;
+	ign_flag = false;
 
-    RETURN_FALSE;
+	RETURN_FALSE;
 }
 
 static int rsv_flag = false;
@@ -819,6 +819,8 @@ bool cmd_reserve(bsc *svr)
     while (!rsv_flag) {
         cmd_poll(svr, &readset, &writeset); 
     }
+
+	return true;
 }
 
 /* {{{ proto bool beanstalk_reserve(object beanstalk, char *tube, int tube_len, int timeout ])
@@ -864,10 +866,10 @@ PHP_FUNCTION(beanstalk_reserve)
 		{
 			add_assoc_long(return_value, "id", g_rsv_info->response.id);
 			add_assoc_stringl(return_value, "data", g_rsv_info->response.data, g_rsv_info->response.bytes, 1);
-			g_rsv_info = NULL;
-			rsv_flag = false;
 		}
 	}
+	g_rsv_info = NULL;
+	rsv_flag = false;
 }
 
 static int bury_flag = false;
@@ -934,11 +936,11 @@ PHP_FUNCTION(beanstalk_bury)
 
 	if(cmd_bury(svr, job_id) && g_bury_info) {
 		if(BSC_RES_BURIED == g_bury_info->response.code){
-			g_bury_info = NULL;
-			bury_flag = false;
 			RETURN_TRUE;
 		}
 	}
+	g_bury_info = NULL;
+	bury_flag = false;
 
 	RETURN_FALSE;
 }
@@ -1007,11 +1009,11 @@ PHP_FUNCTION(beanstalk_kick)
 
 	if(cmd_kick(svr, bound) && g_kick_info) {
 		if(BSC_KICK_RES_KICKED == g_kick_info->response.code){
-			g_kick_info = NULL;
-			kick_flag = false;
 			RETURN_TRUE;
 		}
 	}
+	g_kick_info = NULL;
+	kick_flag = false;
 
 	RETURN_FALSE;
 }
@@ -1080,11 +1082,11 @@ PHP_FUNCTION(beanstalk_delete)
 
 	if(cmd_delete(svr, job_id) && g_dlt_info){
 		if(BSC_DELETE_RES_DELETED == g_dlt_info->response.code){
-			g_dlt_info = NULL;
-			dlt_flag = false;
 			RETURN_TRUE;
 		}
 	}
+	g_dlt_info = NULL;
+	dlt_flag = false;
 
 	RETURN_FALSE;
 }
@@ -1154,9 +1156,9 @@ PHP_FUNCTION(beanstalk_list_tubes)
                 j++;
             }   
             j = 0;
-			g_lst_info = NULL;
-			lst_flag = false;
 		}
+		g_lst_info = NULL;
+		lst_flag = false;
 	}
 }
 
