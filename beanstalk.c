@@ -805,9 +805,9 @@ void rsv_callback(bsc *svr, struct bsc_reserve_info *info)
     rsv_flag = true;
 }
 
-bool cmd_reserve(bsc *svr)
+bool cmd_reserve(bsc *svr, int timeout)
 {
-	bsc_error = bsc_reserve(svr, rsv_callback, NULL, BSC_DEFAULT_TIMEOUT);
+	bsc_error = bsc_reserve(svr, rsv_callback, NULL, timeout);
     if (bsc_error != BSC_ERROR_NONE) {
 		php_error_docref(NULL TSRMLS_CC, E_WARNING, "critical error: got unknown error (%d)\n", bsc_error);
         return false;
@@ -860,7 +860,7 @@ PHP_FUNCTION(beanstalk_reserve)
 
 	array_init(return_value);
 
-	if(cmd_reserve(svr) && g_rsv_info)
+	if(cmd_reserve(svr, timeout) && g_rsv_info)
 	{
 		if(BSC_RESERVE_RES_RESERVED == g_rsv_info->response.code)
 		{
